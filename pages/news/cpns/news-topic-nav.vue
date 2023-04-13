@@ -1,13 +1,13 @@
 <template>
 	<view class="hot-nav">
 		<view class="flex justify-between column-one">
-			<view class="">热门分类</view>
+			<view class="">法律分类</view>
 			<view class="flex justify-between items-center" @click="goTopicNav()">
 				更多<view class="iconfont iconqianjin"></view>
 			</view>
 		</view>
 		<view class="flex column-two">
-			<view v-for="(item,index) in list" :key="index" >{{item.title}}</view>
+			<view v-for="(item,index) in list" :key="index" >{{item}}</view>
 		</view>
 	</view>
 </template>
@@ -21,11 +21,11 @@
 	 */
 	export default {
 		props:{
-			list: Array
+			// list:Array
 		},
 		data() {
 			return {
-				
+				list: ["中央法规","地方法规","立法资料","立法计划","中外条约"]
 			};
 		},
 		methods: {

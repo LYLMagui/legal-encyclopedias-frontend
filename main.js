@@ -5,6 +5,7 @@ import Vue from 'vue'
 
 import MescrollBody from "@/components/mescroll-uni/mescroll-body.vue"
 import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue"
+import navBar from "@/components/zhouWei-navBar/index.vue";
 Vue.component('mescroll-body', MescrollBody)
 Vue.component('mescroll-uni', MescrollUni)
 

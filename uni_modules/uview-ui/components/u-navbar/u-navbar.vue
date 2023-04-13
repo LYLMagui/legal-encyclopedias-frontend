@@ -32,8 +32,10 @@
 							:name="leftIcon"
 							:size="leftIconSize"
 							:color="leftIconColor"
+							:textsize="leftTextSize"
 						></u-icon>
-						<text
+						<text 
+
 							v-if="leftText"
 							:style="{
 								color: leftIconColor
@@ -163,7 +165,7 @@
 				}
 
 				&__text {
-					font-size: 15px;
+					font-size: 16px;
 					margin-left: 3px;
 				}
 			}

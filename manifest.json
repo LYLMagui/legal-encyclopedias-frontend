@@ -6,7 +6,7 @@
 	"versionCode": "100",
 	"transformPx": false,
 	"app-plus": {
-	
+
 		"usingComponents": true,
 		"nvueStyleCompiler": "uni-app",
 		"compilerVersion": 3,
@@ -54,7 +54,8 @@
 		"setting": {
 			"urlCheck": false,
 			"minified": true,
-			"es6": false
+			"es6": false,
+			"ignoreDevUnusedFiles": false
 		},
 		"usingComponents": true
 	},

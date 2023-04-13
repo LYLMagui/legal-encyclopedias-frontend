@@ -156,8 +156,8 @@
 			// 	})
 			// }
 			goDetail(){
-				console.log("点击了");
-				this.$u.route('pages/home/read')
+				this.$u.route('pages/home/bookinfo')
+				// this.$u.route('pages/home/read')
 			}
 		}
 	}

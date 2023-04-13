@@ -1,4 +1,5 @@
 {
   "dependencies": {
+    "firstui-uni": "^1.9.1"
   }
 }

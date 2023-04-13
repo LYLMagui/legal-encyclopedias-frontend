@@ -33,6 +33,7 @@
 	/* 样式库 */
 	@import '/static/css/thinco.scss';
 
+
 	/* #ifdef H5 */
 	/* 针对h5页面取消返回按钮 */
 	uni-page[data-page="pages/paper/friend"] .uni-page-head-hd {
@@ -47,4 +48,15 @@
 	}
 
 	/* #endif */
+</style>
+<style>
+	@import "./static/icon/iconfont.css";
+	@import '/static/css/animation.css';
+	@import '/axinui.css';
+	/*每个页面公共css */
+	.tabbar_bottom {
+		margin-bottom: 0;  
+		margin-bottom: constant(safe-area-inset-bottom);  
+		margin-bottom: env(safe-area-inset-bottom);  
+	}  
 </style>

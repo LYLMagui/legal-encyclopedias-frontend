@@ -244,7 +244,8 @@ export const newsList = [{
 
 // 话题列表
 export const topicList = [{
-		list: [{
+		list: [
+			{
 				title: "秋天的第一杯奶茶",
 				img: "/static/img/list/01.svg",
 				desc: "有人请你喝第一杯奶茶吗？",
