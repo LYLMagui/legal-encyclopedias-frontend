@@ -7,23 +7,35 @@
 				lineColor="#01906c" :activeStyle="{color:'#01906c'}" :inactiveStyle="{color:'#909399'}" lineWidth="30"
 				:scrollable="true">
 			</u-tabs>
+			<view class="search-input" @click="goSearch">
+				<uni-data-select v-model="searchType" :localdata="searchTypes" @change="change" :clear="false"
+					class="select-data"></uni-data-select>
+					
+				<view class="search-input">
+					<u-search 
+					:placeholder="searchType === 0 ? '请输入标题' : '请输入内容'" 
+					:clearabled="true" 
+					v-model="searchValue"
+					shape="square"
+					:showAction="true"
+					searchIconSize=20
+					@search="searchLaw"
+					@custom="searchLaw"
+					></u-search>
+				</view>
+			</view>
 		</u-sticky>
 
 		<!-- 图文列表 -->
 		<swiper class="wrap-card flex-1 warp-card-content" :current="swiperIndex" @animationfinish="animationfinish">
 			<swiper-item class="h-full" v-for="(item, index) in swiperList" :key="index">
-
 				<scroll-view scroll-y style="height: 100%;width: 100%;background-color: #f8f8f8;"
 					@scrolltolower="reachBottom">
-					<view class="search-input" @click="goSearch">
-						<u-input type="text" placeholder="请输入搜索内容" placeholderClass="iconfont iconsousuo text-28"
-							border="surround" shape="circle" inputAlign="center" clearable confirmType="search"
-							disabled>
-						</u-input>
-					</view>
+
+					
 					<!-- 有内容 -->
 					<template v-if="item.list.length > 0">
-						<topic-list class="px-20" :item="item1" v-for="(item1,index1) in item.list"
+						<topic-list class="px-20 box" :item="item1" v-for="(item1,index1) in item.list"
 							:key="index1"></topic-list>
 						<u-loadmore :status="loadStatus[tabIndex]"></u-loadmore>
 					</template>
@@ -69,9 +81,21 @@
 						name: "中外条约"
 					}
 				],
+				searchValue:'',
+				//搜索类型
+				searchType: 0,
+				searchTypes: [{
+						value: 0,
+						text: '标题'
+					},
+					{
+						value: 1,
+						text: '内容'
+					}
+				],
 				// 列表数据
 				swiperIndex: 0,
-				swiperList: topicList
+				swiperList: topicList,
 			}
 		},
 		methods: {
@@ -96,9 +120,9 @@
 				}, 1000);
 			},
 			goSearch() {
-				this.$u.route('/pages/home/search', {
-					type: 'topic'
-				})
+				// this.$u.route('/pages/home/search', {
+				// 	type: 'topic'
+				// })
 			},
 			// 获取列表
 			getList(idx) {
@@ -110,7 +134,18 @@
 				}
 				// 更新加载状态
 				this.loadStatus.splice(this.tabIndex, 1, "nomore")
+			},
+			//下拉框改变的方法
+			change(e) {
+				console.log("e:", e);
+			},
+			//搜索栏方法
+			searchLaw(){
+				uni.showToast({
+					title:"点击了搜索"
+				})
 			}
+			
 		}
 	}
 </script>
@@ -126,20 +161,30 @@
 		height: calc(100vh - var(--window-top));
 		width: 100%;
 	}
+	.box{
+		.topic-list{
+			height: 100px;
+		}
+	}
 
 	.search-input {
 		width: 100%;
-		margin-top: 20rpx;
-		margin-bottom: 20rpx;
-		height: 60rpx;
-		background-color: #f8f8f8;
-		border-radius: 10rpx;
+		margin-top: 2rpx;
+		// margin-bottom: 20rpx;
+		height: 50px;
+		background-color: #ffffff;
+		// border-radius: 10rpx;
 		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-items: center;
 
-		/deep/ .u-input {
-			height: 80%;
-			width: 90%;
-		}
 
+	}
+
+	.select-data {
+		width: 60px;
+		height: 66rpx;
+		display: inline-block;
 	}
 </style>

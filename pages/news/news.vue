@@ -13,24 +13,47 @@
 			</view>
 		</u-navbar>
 		<!-- 信息列表 -->
-		<swiper class="bg-white px-20" :style="{height:swiperHeight + 'px'}" :current="tabIndex" @change="changeSwiper">
-			<!-- 关注 -->
+		<swiper class="bg-white" :style="{height:swiperHeight + 'px'}" :current="tabIndex" @change="changeSwiper">
+			<!-- 分类查询 -->
 			<swiper-item>
-				<scroll-view scroll-y class="flow h-full" @scrolltolower="reachBottom">
-					<!-- 资讯列表 -->
+				<view class="search-bar">
+					<u--form labelPosition="left" :model="model1" ref="uForm">
+						<u-form-item>
+							<u-checkbox-group v-model="checkboxValue1" placement="row" @change="lawLabSelect">
+								<u-checkbox shape="circle" size="14" v-for="(item, index) in checkboxList1" :key="index"
+									:label="item.name" :name="item.value">
+								</u-checkbox>
+							</u-checkbox-group>
+						</u-form-item>
+					</u--form>
+				</view>
+				<view class="search-center">
+					<view class="search-center-left">
+						<!-- <u-cell-group :customStyle="{'text-align': 'center'}">
+							<u-cell v-for="(item,index) in lawTypes" :key="index" :title="item" ref="cell" center
+								 clickable  @click="currCell(index)"  ></u-cell>
+						</u-cell-group> -->
+						<view class="law-type" :class="{'title-color':index === selectedItemIndex }"
+							v-for="(item,index) in lawTypes" @click="currCell(index)">{{item}}</view>
+					</view>
+				</view>
+
+
+
+
+				<!-- <scroll-view scroll-y class="flow h-full" @scrolltolower="reachBottom">
 					<info-list v-for="(item,index) in followList.list" :key="index" :item="item">
 					</info-list>
 					<u-loadmore :status="followList.loadStatus"></u-loadmore>
-				</scroll-view>
+				</scroll-view> -->
 			</swiper-item>
-			<!-- 话题 -->
+			<!-- 法规主页 -->
 			<swiper-item>
 				<scroll-view scroll-y class="topic h-full">
 					<!-- 搜索框 -->
 					<view class="search-input" @click="goSearch">
-						<u-input type="text" placeholder="请输入搜索内容"
-							placeholderClass="iconfont iconsousuo text-28" border="none" inputAlign="center" clearable
-							confirmType="search" disabled>
+						<u-input type="text" placeholder="请输入搜索内容" placeholderClass="iconfont iconsousuo text-28"
+							border="none" inputAlign="center" clearable confirmType="search" disabled>
 						</u-input>
 					</view>
 					<!-- 轮播图 -->
@@ -51,6 +74,7 @@
 
 <script>
 	import {
+		chatList,
 		newsList,
 		topicList
 	} from "@/utils/data/data.js"
@@ -65,14 +89,29 @@
 		},
 		data() {
 			return {
+				lawTypes: ['国家法', '行政法', '刑法', '民商法', '经济法', '知识产权', '诉讼仲裁', '司法制度'],
+				model1: {},
+				checkboxValue1: [1],
+				checkboxList1: [{
+						name: '国家法律法规库',
+						disabled: false,
+						value: 1
+					},
+					{
+						name: '地方法律法规库',
+						disabled: false,
+						value: 2
+					},
+				],
+
 				// 导航标签
 				tabIndex: 1,
 				tabList: [{
-						name: "关注",
+						name: "分类查询",
 						id: 'follow'
 					},
 					{
-						name: "话题",
+						name: "法规主页",
 						id: 'topic'
 					}
 				],
@@ -130,8 +169,9 @@
 							id: 6
 						}
 					],
-					list: topicList[1].list
-				}
+					list: topicList[1].list,
+				},
+				selectedItemIndex: -1,
 			}
 		},
 		onLoad() {
@@ -145,6 +185,16 @@
 			})
 		},
 		methods: {
+			currCell(index) {
+
+				this.selectedItemIndex = index;
+				this.selected = !this.selected;
+
+
+			},
+			lawLabSelect() {
+				console.log(this.checkboxValue1);
+			},
 			// tabbar点击
 			changeTab(index) {
 				this.tabIndex = index
@@ -179,12 +229,31 @@
 				this.$u.route('/pages/home/search', {
 					type: 'topic'
 				})
+			},
+			radioChange1() {
+
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.title-color {
+		color: #f92a28;
+		background-color: #F4F4F4;
+		
+	}
+
+	@keyframes box-active {
+		from {
+			background-size: 0 0;
+		}
+
+		to {
+			background-size: 200% 200%;
+		}
+	}
+
 	.news {
 
 		// 导航栏
@@ -202,7 +271,7 @@
 				align-items: center;
 
 				.nav-title {
-					width: 60rpx;
+					width: 120rpx;
 					font-size: 30rpx;
 					padding: 0 15rpx;
 					font-weight: bold;
@@ -240,6 +309,7 @@
 				height: 70rpx;
 				background-color: #F4F4F4;
 				border-radius: 10rpx;
+
 				/deep/ .u-input {
 					height: 100%;
 				}
@@ -254,6 +324,68 @@
 				}
 			}
 
+		}
+
+		.search-bar {
+			width: 100%;
+			height: 40px;
+			border-bottom: 2px #e9e9e9 solid;
+			border-top: 1px #e9e9e9 solid;
+			display: flex;
+			justify-content: center;
+			font-size: 28rpx;
+
+			/deep/ .u-form {
+				width: 100%;
+
+				.u-form-item__body__right__content__slot {
+					height: 100%;
+				}
+
+				.u-checkbox-label--left {
+					width: calc(50% - 0.5px);
+					justify-content: center;
+					border-right: 0.5px solid #d3d3d3;
+				}
+
+				.u-form-item {
+					align-items: center;
+					height: 100%;
+
+					.u-form-item__body {
+						width: 100%;
+						padding: 0;
+						height: 100%;
+
+						.u-checkbox-group--row {
+							height: 100%;
+							justify-content: space-around;
+
+						}
+					}
+				}
+			}
+		}
+
+		.law-type {
+			width: 100%;
+			height: 42px;
+			border-bottom: 2px #e9e9e9 solid;
+			// border-top: 1px #e9e9e9 solid;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 28rpx;
+		}
+
+		.search-center {
+			height: calc(100% - 40px);
+
+			.search-center-left {
+				height: 100%;
+				width: 26%;
+				border-right: 2px solid #e9e9e9;
+			}
 		}
 	}
 </style>

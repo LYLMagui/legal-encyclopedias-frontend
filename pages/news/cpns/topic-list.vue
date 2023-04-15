@@ -2,7 +2,7 @@
 	<!-- 法律分类列表 -->
 	<view class="topic-list flex" @click="goTopicDetail(item)">
 		<!-- <image :src="item.img" lazy-load mode="heightFix"></image> -->
-		<view class="my-20 flex-1">
+		<view class=" flex-1">
 			<view class="text-black text-32"><text>1.</text>
 				中国人民共和国国立宪法(2023修正)
 				<view class="tag">
@@ -59,7 +59,6 @@
 		display: inline-block;
 		margin-left: 10px;
 	}
-
 	.topic-list {
 		padding: 10px 20px;
 		background-color: #ffffff;

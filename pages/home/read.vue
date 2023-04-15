@@ -97,7 +97,7 @@
 				<text class="law-detail-content">有效</text>
 			</view>
 			<view>
-				<view class="law-detail">发文字号:</view>  
+				<view class="law-detail">发文字号</view>:
 				<text class="law-detail-content">中华人民共和国主席令第3号</text>
 			</view>
 			<view>
@@ -335,12 +335,12 @@
 
 	.law-detail-title {
 		text-align: center;
-		font-size: 40upx;
+		font-size: 38upx;
 		font-weight: 500;
 	}
 	.law-detail-content{
 		display: inline-block;
-		font-size: 32upx;
+		font-size: 30upx;
 		text-align: left;
 	}
 

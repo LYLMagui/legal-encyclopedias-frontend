@@ -54,7 +54,7 @@
 	.column-two > view {
 		text-align: center;
 		flex: 1;
-		background: #f9f9f9;
+		background: #f2f2f2;
 		color: #9b9b9b;
 		border-radius: 10rpx;
 		margin: 0 10rpx;

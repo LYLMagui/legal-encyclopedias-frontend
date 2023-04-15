@@ -1,29 +1,19 @@
 <template>
 	<!-- 首页/搜索页 -->
-	<view class="search wrap-card">
+	<view class="search">
 		<!-- 小程序导航栏 -->
 		<!-- #ifdef MP-WEIXIN -->
 		<u-navbar placeholder autoBack>
+
 			<view slot="center" class="nav-center">
-				<u-search placeholder="请输入内容" @click="search()" disabled></u-search>
+				<u-search placeholder="请输入内容或标题" showAction="true" v-model="keyword" @custom="search()"></u-search>
 			</view>
 		</u-navbar>
 		<!-- #endif -->
-		<template v-if="list.length === 0">
-			<view class="flex items-center">
-				<text class="text-30">搜索历史</text>
-				<u--text v-if="records.length > 0" prefixIcon="trash" align="right" iconStyle="font-size: 19px"
-					text="清空" @click="delRecord('all')"></u--text>
-			</view>
-			<view class="flex flex-wrap mt-20">
-				<view class="mr-20 my-10 p-10 border rounded text-24 text-gray-500 relative"
-					v-for="(item,index) in records" :key="index" @longpress="editState(index)">
-					<text>{{item.name}}</text>
-					<u-icon v-if="item.edit" class="close-tag" name="close-circle" @click="delRecord('single',index)">
-					</u-icon>
-				</view>
-			</view>
-		</template>
+		<view class="back-wall">
+			
+		</view>
+
 		<!-- 资讯列表 -->
 		<template v-if="type === 'info'">
 			<info-list :item="item" v-for="(item,index) in list" :key="index">
@@ -66,6 +56,31 @@
 				keyword: '',
 				records: searchList,
 				list: [],
+				lawType: '', //法律类别
+				lawTypes: [
+
+					{
+						value: 1,
+						text: '中央法规'
+					},
+					{
+						value: 2,
+						text: '地方法规'
+					},
+					{
+						value: 3,
+						text: '立法资料'
+					},
+					{
+						value: 4,
+						text: '立法计划'
+					},
+					{
+						value: 5,
+						text: '中外条约'
+					}
+				],
+			shwo:false
 			}
 		},
 		// 监听原生标题栏按钮点击事件
@@ -91,6 +106,7 @@
 		methods: {
 			// 搜索
 			search() {
+				console.log("开始搜索");
 				// 数据校验
 				if (this.keyword === '') {
 					return this.$refs.uToast.show({
@@ -149,6 +165,11 @@
 				currentWebview.setStyle({
 					titleNView: tn
 				})
+			},
+			lawTypeChange() {
+				this.$refs.uToast.show({
+					message: this.lawType
+				})
 			}
 		}
 	}
@@ -157,6 +178,16 @@
 <style lang="scss" scoped>
 	page {
 		background-color: #fff;
+	}
+
+	.card {
+		height: 100%;
+	}
+
+	.back-wall {
+		width: 100%;
+		height: 55px;
+		background-color: #efefef;
 	}
 
 	.search {
@@ -176,11 +207,13 @@
 		}
 
 		/* #endif */
+		.items-center {}
 
 		.close-tag {
 			position: absolute;
 			top: -15rpx;
 			right: -5px;
 		}
+
 	}
 </style>
