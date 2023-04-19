@@ -195,6 +195,12 @@
 					}
 				}
 			}
+		},
+		{
+			"path": "pages/news/cpns/law-search-detail",
+			"style": {
+				"navigationBarTitleText": "法律查询"
+			}
 		}
 	],
 	// 全局样式
@@ -223,7 +229,7 @@
 			},
 			{
 				"pagePath": "pages/news/news",
-				"text": "新鲜事",
+				"text": "首页",
 				"iconPath": "/static/img/tabbar/news.png",
 				"selectedIconPath": "/static/img/tabbar/news-ed.png"
 			},

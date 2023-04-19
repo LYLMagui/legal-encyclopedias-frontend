@@ -29,12 +29,15 @@
 				</view>
 				<view class="search-center">
 					<view class="search-center-left">
-						<!-- <u-cell-group :customStyle="{'text-align': 'center'}">
-							<u-cell v-for="(item,index) in lawTypes" :key="index" :title="item" ref="cell" center
-								 clickable  @click="currCell(index)"  ></u-cell>
-						</u-cell-group> -->
 						<view class="law-type" :class="{'title-color':index === selectedItemIndex }"
 							v-for="(item,index) in lawTypes" @click="currCell(index)">{{item}}</view>
+					</view>
+					<view class="search-center-right">
+						<view class="search-center-right-list">
+							<view class="law-kinds" v-for="(item,index) in lawKind" @click="openSearchList(item.value)">
+								{{item.name}}
+							</view>
+						</view>
 					</view>
 				</view>
 
@@ -85,7 +88,7 @@
 		components: {
 			InfoList,
 			NewsTopicNav,
-			TopicList
+			TopicList,
 		},
 		data() {
 			return {
@@ -172,6 +175,178 @@
 					list: topicList[1].list,
 				},
 				selectedItemIndex: -1,
+				// lawKinds: [
+				// 	['宪法', '国家法', '选举法', '立法法', '国家组织', '民族自治法', '港澳基本法'],
+				// 	['行政管理', '公安', '国安', '教育', '科技', '医疗', '卫生'],
+				// 	['刑法'],
+				// 	['民法', '物权', '合同', '担保', '侵权', '婚姻', '继承'],
+				// 	['经济', '工商', '金融', '银行', '保险', '信托', '基金'],
+				// 	['专利', '商标', '著作权', '软件', '电子商务', '集成电路', '商业秘密'],
+				// 	['民事诉讼', '行驶诉讼', '行政诉讼', '海事诉讼', '仲裁', '劳动仲裁', '农地仲裁'],
+				// 	['审判', '检查', '司法行政', '法制', '监狱', '公正', '律师'],
+				// ],
+				lawKinds: [
+					[{
+						name: '宪法',
+						value: 1
+					}, {
+						name: '国家法',
+						value: 2
+					}, {
+						name: '选举法',
+						value: 3
+					}, {
+						name: '立法法',
+						value: 4
+					}, {
+						name: '国家组织',
+						value: 5
+					}, {
+						name: '民族自治法',
+						value: 6
+					}, {
+						name: '港澳基本法',
+						value: 7
+					}],
+					[{
+						name: '行政管理',
+						value: 1
+					}, {
+						name: '公安',
+						value: 2
+					}, {
+						name: '国安',
+						value: 3
+					}, {
+						name: '教育',
+						value: 4
+					}, {
+						name: '科技',
+						value: 5
+					}, {
+						name: '医疗',
+						value: 6
+					}, {
+						name: '卫生',
+						value: 7
+					}],
+					[{
+						name:'刑法',
+						value: 1
+					}],
+					[{
+						name:'民法',
+						value: 1
+					}, {
+						name:'物权',
+						value: 2
+					}, {
+						name:'合同',
+						value: 3
+					}, {
+						name:'担保',
+						value: 4
+					}, {
+						name:'侵权',
+						value: 5
+					}, {
+						name:'婚姻',
+						value: 6
+					}, {
+						name:'继承',
+						value: 7
+					}],
+					[{
+						name:'经济',
+						value: 1
+					}, {
+						name:'工商',
+						value: 2
+					}, {
+						name:'金融',
+						value: 3
+					}, {
+						name:'银行',
+						value: 4
+					}, {
+						name:'保险',
+						value: 5
+					}, {
+						name:'信托',
+						value: 6
+					}, {
+						name:'基金',
+						value: 7
+					}],
+					[{
+						name:'专利',
+						value: 1
+					}, {
+						name:'商标',
+						value: 2
+					}, {
+						name:'著作权',
+						value: 3
+					}, {
+						name:'软件',
+						value: 4
+					}, {
+						name:'电子商务',
+						value: 5
+					}, {
+						name:'集成电路',
+						value: 6
+					}, {
+						name:'商业秘密',
+						value: 7
+					}],
+					[{
+						name:'民事诉讼',
+						value: 1
+					}, {
+						name:'行驶诉讼',
+						value: 2
+					}, {
+						name:'行政诉讼',
+						value: 3
+					}, {
+						name:'海事诉讼',
+						value: 4
+					}, {
+						name:'仲裁',
+						value: 5
+					}, {
+						name:'劳动仲裁',
+						value: 6
+					}, {
+						name:'农地仲裁',
+						value: 7
+					}],
+					[{
+						name:'审判',
+						value: 1
+					}, {
+						name:'检查',
+						value: 2
+					}, {
+						name:'司法行政',
+						value: 3
+					}, {
+						name:'法制',
+						value: 4
+					}, {
+						name:'监狱',
+						value: 5
+					}, {
+						name:'公正',
+						value: 6
+					}, {
+						name:'律师',
+						value: 7
+					}],
+				],
+				lawKind: [],
+				show:false
 			}
 		},
 		onLoad() {
@@ -184,13 +359,16 @@
 				}
 			})
 		},
+		created() {
+			this.lawKind = this.lawKinds[0]
+			this.selectedItemIndex = 0
+		},
 		methods: {
+			//点击左侧菜单切换中间的分类
 			currCell(index) {
-
+				this.lawKind = this.lawKinds[index]
 				this.selectedItemIndex = index;
 				this.selected = !this.selected;
-
-
 			},
 			lawLabSelect() {
 				console.log(this.checkboxValue1);
@@ -230,8 +408,10 @@
 					type: 'topic'
 				})
 			},
-			radioChange1() {
-
+			openSearchList(value){
+				uni.navigateTo({
+					url:'cpns/law-search-detail?lawType=' + value
+				})
 			}
 		}
 	}
@@ -241,7 +421,7 @@
 	.title-color {
 		color: #f92a28;
 		background-color: #F4F4F4;
-		
+
 	}
 
 	@keyframes box-active {
@@ -380,11 +560,49 @@
 
 		.search-center {
 			height: calc(100% - 40px);
+			display: flex;
+			justify-content: left;
 
 			.search-center-left {
 				height: 100%;
 				width: 26%;
 				border-right: 2px solid #e9e9e9;
+			}
+
+			.search-center-right {
+				height: 100%;
+				width: 74%;
+
+				.search-center-right-list {
+					padding: 10px 9px;
+					height: calc(100% - 20px);
+					width: calc(100% -10px);
+					display: flex;
+					justify-content: space-between;
+					flex-wrap: wrap;
+					align-content: flex-start;
+
+					.law-kinds {
+						width: 80px;
+						box-sizing: border-box;
+						height: 50px;
+						padding: 3px;
+						text-align: center;
+						background-color: #FFF;
+						line-height: 40px;
+						margin-bottom: 15px;
+						font-size: 28rpx;
+						border-radius: 10px;
+						border: #d3d3d3 1px solid;
+						box-shadow: 0px 0px 2px #d3d3d3 inset;
+
+					}
+
+					.law-kinds:active {
+						background-color: #F4F4F4;
+					}
+
+				}
 			}
 		}
 	}

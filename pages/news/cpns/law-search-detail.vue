@@ -3,25 +3,17 @@
 	<view class="news-topic-cate">
 		<!-- 标签 -->
 		<u-sticky bgColor="#fff">
-			<u-tabs class="wrap-card" ref="tabs" @change="changeTab" :list="tablist" :current="tabIndex"
+<!-- 			<u-tabs class="wrap-card" ref="tabs" @change="changeTab" :list="tablist" :current="tabIndex"
 				lineColor="#01906c" :activeStyle="{color:'#01906c'}" :inactiveStyle="{color:'#909399'}" lineWidth="30"
 				:scrollable="true">
-			</u-tabs>
+			</u-tabs> -->
 			<view class="search-input" @click="goSearch">
-				<!-- <uni-data-select v-model="searchType" :localdata="searchTypes" @change="change" :clear="false"
+				<uni-data-select v-model="searchType" :localdata="searchTypes" @change="change" :clear="false"
 					class="select-data"></uni-data-select>
-					 -->
+					
 				<view class="search-input">
-					<u-search 
-					placeholder="请输入标题" 
-					:clearabled="true" 
-					v-model="searchValue"
-					shape="square"
-					:showAction="true"
-					searchIconSize=20
-					@search="searchLaw"
-					@custom="searchLaw"
-					></u-search>
+					<u-search :placeholder="searchType === 0 ? '请输入标题' : '请输入内容'" :clearabled="true" v-model="searchValue" shape="square"
+						:showAction="true" searchIconSize=20 @search="searchLaw" @custom="searchLaw"></u-search>
 				</view>
 			</view>
 		</u-sticky>
@@ -32,7 +24,7 @@
 				<scroll-view scroll-y style="height: 100%;width: 100%;background-color: #f8f8f8;"
 					@scrolltolower="reachBottom">
 
-					
+
 					<!-- 有内容 -->
 					<template v-if="item.list.length > 0">
 						<topic-list class="px-20 box" :item="item1" v-for="(item1,index1) in item.list"
@@ -81,7 +73,7 @@
 						name: "中外条约"
 					}
 				],
-				searchValue:'',
+				searchValue: '',
 				//搜索类型
 				searchType: 0,
 				searchTypes: [{
@@ -97,6 +89,10 @@
 				swiperIndex: 0,
 				swiperList: topicList,
 			}
+		},
+
+		onLoad(option) {
+			console.log(option);
 		},
 		methods: {
 			// tab栏切换
@@ -140,12 +136,12 @@
 				console.log("e:", e);
 			},
 			//搜索栏方法
-			searchLaw(){
+			searchLaw() {
 				uni.showToast({
-					title:"点击了搜索"
+					title: "点击了搜索"
 				})
 			}
-			
+
 		}
 	}
 </script>
@@ -161,8 +157,9 @@
 		height: calc(100vh - var(--window-top));
 		width: 100%;
 	}
-	.box{
-		.topic-list{
+
+	.box {
+		.topic-list {
 			height: 100px;
 		}
 	}
