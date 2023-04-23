@@ -1,3 +1,4 @@
+
 export default {
 	// api请求前端
 	request:'https://xxx.xxx.com/api/v1',
@@ -6,5 +7,7 @@ export default {
 	// 文件上传
 	upload:'https://xxx.xxx.com/upload',
 	// 文件下载
-	download:'https://xxx.xxx.com/download'
+	download:'https://xxx.xxx.com/download',
+	//服务器地址
+	baseUrl:'http://localhost:8090'
 }

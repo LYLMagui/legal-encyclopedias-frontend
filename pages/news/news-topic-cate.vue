@@ -37,7 +37,7 @@
 					<template v-if="item.list.length > 0">
 						<topic-list class="px-20 box" :item="item1" v-for="(item1,index1) in item.list"
 							:key="index1"></topic-list>
-						<u-loadmore :status="loadStatus[tabIndex]"></u-loadmore>
+						<u-loadmore :margin-bottom="15" :status="loadStatus[tabIndex]"></u-loadmore>
 					</template>
 					<!-- 无内容 -->
 					<template v-else>
@@ -152,7 +152,7 @@
 
 <style lang="scss" scoped>
 	.warp-card-content {
-		padding: 10px 0;
+		padding: 10px 0 0 0;
 	}
 
 	.news-topic-cate {

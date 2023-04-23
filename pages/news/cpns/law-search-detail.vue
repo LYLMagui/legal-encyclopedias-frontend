@@ -3,31 +3,30 @@
 	<view class="news-topic-cate">
 		<!-- 标签 -->
 		<u-sticky bgColor="#fff">
-<!-- 			<u-tabs class="wrap-card" ref="tabs" @change="changeTab" :list="tablist" :current="tabIndex"
+			<!-- 			<u-tabs class="wrap-card" ref="tabs" @change="changeTab" :list="tablist" :current="tabIndex"
 				lineColor="#01906c" :activeStyle="{color:'#01906c'}" :inactiveStyle="{color:'#909399'}" lineWidth="30"
 				:scrollable="true">
 			</u-tabs> -->
 			<view class="search-input" @click="goSearch">
 				<uni-data-select v-model="searchType" :localdata="searchTypes" @change="change" :clear="false"
 					class="select-data"></uni-data-select>
-					
+
 				<view class="search-input">
-					<u-search :placeholder="searchType === 0 ? '请输入标题' : '请输入内容'" :clearabled="true" v-model="searchValue" shape="square"
-						:showAction="true" searchIconSize=20 @search="searchLaw" @custom="searchLaw"></u-search>
+					<u-search :placeholder="searchType === 0 ? '请输入标题' : '请输入内容'" :clearabled="true"
+						v-model="searchValue" shape="square" :showAction="true" searchIconSize=20 @search="searchLaw"
+						@custom="searchLaw"></u-search>
 				</view>
 			</view>
 		</u-sticky>
 
 		<!-- 图文列表 -->
 		<swiper class="wrap-card flex-1 warp-card-content" :current="swiperIndex" @animationfinish="animationfinish">
-			<swiper-item class="h-full" v-for="(item, index) in swiperList" :key="index">
+			<swiper-item class="h-full">
 				<scroll-view scroll-y style="height: 100%;width: 100%;background-color: #f8f8f8;"
 					@scrolltolower="reachBottom">
-
-
 					<!-- 有内容 -->
-					<template v-if="item.list.length > 0">
-						<topic-list class="px-20 box" :item="item1" v-for="(item1,index1) in item.list"
+					<template v-if="lawList.length > 0">
+						<topic-list class="px-20 box" :item="item1" :index="index1" v-for="(item1,index1) in lawList"
 							:key="index1"></topic-list>
 						<u-loadmore :status="loadStatus[tabIndex]"></u-loadmore>
 					</template>
@@ -43,10 +42,15 @@
 </template>
 
 <script>
+	import TopicList from "@/pages/news/cpns/topic-list.vue";
 	import {
-		topicList
+		queryLawList,
+		queryLawsByArticle
+	} from "@/utils/api/legalApi.js"
+	import {
+		topicList,
 	} from "@/utils/data/data.js"
-	import TopicList from "@/pages/news/cpns/topic-list.vue"
+import uSearchVue from "../../../uni_modules/uview-ui/components/u-search/u-search.vue";
 	export default {
 		components: {
 			TopicList
@@ -57,22 +61,6 @@
 				loadStatus: ['loadmore', 'loadmore', 'loadmore', 'loadmore', 'loadmore', 'loadmore'],
 				// 标签栏
 				tabIndex: 0,
-				tablist: [{
-						name: "中央法规"
-					},
-					{
-						name: "地方法规"
-					},
-					{
-						name: "立法资料"
-					},
-					{
-						name: "立法计划"
-					},
-					{
-						name: "中外条约"
-					}
-				],
 				searchValue: '',
 				//搜索类型
 				searchType: 0,
@@ -87,13 +75,22 @@
 				],
 				// 列表数据
 				swiperIndex: 0,
-				swiperList: topicList,
+				// swiperList: topicList,
+				lawList: [],
+				lawType:'',
+				//查询实体
+				queryObj:{
+					"legalName":'',
+					"article":'',
+					"secondCategory":''
+				}
 			}
 		},
-
 		onLoad(option) {
-			console.log(option);
+			this.lawType = option.lawType
+			this.getList(option.lawType)
 		},
+
 		methods: {
 			// tab栏切换
 			changeTab(item) {
@@ -121,25 +118,47 @@
 				// })
 			},
 			// 获取列表
-			getList(idx) {
-				// 随机添加5条数据
-				for (let i = 0; i < 5; i++) {
-					let index = this.$u.random(0, this.swiperList[idx].list.length - 1);
-					let data = JSON.parse(JSON.stringify(this.swiperList[idx].list[index]));
-					this.swiperList[idx].list.push(data);
+			getList(param) {
+				let data = {
+					"secondCategory": param
 				}
-				// 更新加载状态
+				queryLawList(data).then(res => {
+					this.lawList = res.data
+					console.log(res);
+				})
 				this.loadStatus.splice(this.tabIndex, 1, "nomore")
+
 			},
 			//下拉框改变的方法
 			change(e) {
-				console.log("e:", e);
+				this.searchType = e
+				if(e === 0){
+					console.log("通过标题搜索，searchType = " + this.searchType);
+				}else if(e === 1){
+					console.log("通过内容搜索，searchType = " + this.searchType);
+				}
 			},
 			//搜索栏方法
 			searchLaw() {
-				uni.showToast({
-					title: "点击了搜索"
-				})
+				let param = this.queryObj
+				param.secondCategory = this.lawType
+				if(this.searchType === 0){
+					param.legalName = this.searchValue
+					param.article = ''
+					queryLawList(param).then(res => {
+						this.lawList = res.data
+						this.loadStatus.splice(this.tabIndex, 1, "nomore")
+					})
+				}else if(this.searchType === 1){
+					param.article = this.searchValue
+					param.legalName = ''
+					queryLawsByArticle(param).then(res => {
+						console.log(res);
+						this.lawList = res.data
+						this.loadStatus.splice(this.tabIndex, 1, "nomore")
+					})
+				}
+				
 			}
 
 		}

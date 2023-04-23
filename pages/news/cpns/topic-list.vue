@@ -3,17 +3,13 @@
 	<view class="topic-list flex" @click="goTopicDetail(item)">
 		<!-- <image :src="item.img" lazy-load mode="heightFix"></image> -->
 		<view class=" flex-1">
-			<view class="text-black text-32"><text>1.</text>
-				中国人民共和国国立宪法(2023修正)
+			<view class="text-black text-32"><text>{{index + 1}}.</text>
+				{{item.legalName}}
 				<view class="tag">
-					<u-tag text="现行有效" size="mini" :bgColor="tagBgColor"></u-tag>
+					<u-tag :text="activity" size="mini" :bgColor="tagBgColor"></u-tag>
 				</view>
 			</view>
-			<view class="text-gray-400 text-32 my-10">现行有效 / 中华人民共和国主席令第3号 / 2023.03.13发布 / 2023.03.15施行</view>
-			<!-- <view class="text-gray-400 text-24 my-10 flex w-full">
-				<view class="w-1-2 text-left">热度：{{item.totalNum}}</view>
-				<view class="w-1-2 text-left">今日：{{item.todayNum}}</view>
-			</view> -->
+			<view class="text-gray-400 text-30 my-10">{{activity + " /"}} {{item.documentNumber === null ? '' : item.documentNumber + " /"}} {{item.publishTime + " 发布 /"}} {{item.startTime + " 施行"}}</view>
 		</view>
 	</view>
 </template>
@@ -30,21 +26,31 @@
 			item: {
 				type: Object,
 				default: () => ({})
+			},
+			index: {
+				default: () => ({})
 			}
 		},
 		data() {
 			return {
 				//是否生效的标签颜色
-				tagBgColor:"#33b45a"
+				tagBgColor:"#33b45a",
+				activity:''
+			}
+		},
+		mounted() {
+			if(this.item.activity === 1){
+				this.activity = '现行有效'
+			}else if(this.item.activity === 2){
+				this.activity = '部分有效'
+			}else{
+				this.tagBgColor = '#ffca3a'
+				this.activity = '失效'
 			}
 		},
 		methods: {
 			// 话题详情
 			goTopicDetail(item) {
-				// this.$u.route({
-				// 	url: '/pages/news/news-topic-detail',
-				// 	params: item
-				// })
 				this.$u.route({
 					url:'/pages/home/read'
 				})
@@ -55,7 +61,7 @@
 
 <style lang="scss" scoped>
 	.tag {
-		width: 60px;
+		width: auto;
 		display: inline-block;
 		margin-left: 10px;
 	}
