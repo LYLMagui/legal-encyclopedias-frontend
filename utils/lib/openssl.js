@@ -1,0 +1,13 @@
+let publicKey = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA223m5Ewifs61QGtMj0va
+APghyiAiXXM5Dqpqc+88ZIGikpsG1vQr7zMJt67M01uqmm5y4cpSSCYfnjlqwSaL
+31b+NtccNu45p8Mr05YLFjeHXNDgQlT/PYEsVyisYN3HtNPPPs9ZlQ6wjbQ0/+Dh
+Pw+5YsYNKb6VHFm3BBgPCUiDKbrv3CoMxye7jwKT0g9rF+CMztJ6LQJq/ZqHv9t9
+6/YoImEkK0LAhNPPNbYzI6OKCRuePzfj1JW3qelwLWba8e3at8rM3UY/VTkXX71h
+Ea+mRYrNEJ6d8UAj0X9y3c10xGIDOdE15okDnxsQDONQr2j+2r5Ou3nE3uiHMxOF
++QIDAQAB
+-----END PUBLIC KEY-----`
+
+export function getPublicKey(){
+	return publicKey;
+}

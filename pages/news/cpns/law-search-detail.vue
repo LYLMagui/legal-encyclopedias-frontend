@@ -1,5 +1,5 @@
 <template>
-	<!-- 新鲜事页/话题分类 -->
+	
 	<view class="news-topic-cate">
 		<!-- 标签 -->
 		<u-sticky bgColor="#fff">
@@ -42,6 +42,9 @@
 </template>
 
 <script>
+	/**
+	 * 详细法律列表页面 
+	 */
 	import TopicList from "@/pages/news/cpns/topic-list.vue";
 	import {
 		queryLawList,
@@ -78,19 +81,21 @@ import uSearchVue from "../../../uni_modules/uview-ui/components/u-search/u-sear
 				// swiperList: topicList,
 				lawList: [],
 				lawType:'',
+				levels:'',
 				//查询实体
 				queryObj:{
 					"legalName":'',
 					"article":'',
-					"secondCategory":''
+					"secondCategory":'',
+					"leval":''
 				}
 			}
 		},
 		onLoad(option) {
 			this.lawType = option.lawType
+			this.levels = option.levels
 			this.getList(option.lawType)
 		},
-
 		methods: {
 			// tab栏切换
 			changeTab(item) {
@@ -109,7 +114,7 @@ import uSearchVue from "../../../uni_modules/uview-ui/components/u-search/u-sear
 				// 加载更多
 				this.loadStatus.splice(this.tabIndex, 1, "loading");
 				setTimeout(() => {
-					this.getList(this.tabIndex);
+					// this.getList(this.tabIndex);
 				}, 1000);
 			},
 			goSearch() {
@@ -120,7 +125,8 @@ import uSearchVue from "../../../uni_modules/uview-ui/components/u-search/u-sear
 			// 获取列表
 			getList(param) {
 				let data = {
-					"secondCategory": param
+					"secondCategory": param,
+					"levels":this.levels
 				}
 				queryLawList(data).then(res => {
 					this.lawList = res.data

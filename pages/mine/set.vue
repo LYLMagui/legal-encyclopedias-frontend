@@ -23,6 +23,7 @@
 </template>
 
 <script>
+	import {logout} from "@/utils/api/user.js";
 	export default {
 		data() {
 			return {
@@ -81,7 +82,31 @@
 			// 退出
 			logout() {
 				this.logoutShow = false
-				this.$u.route('/pages/mine/login')
+				logout().then(res => {
+					uni.clearStorageSync()
+					console.log(res);
+					if(res.data.code === 200){
+						uni.showToast({
+							title:res.data.message,
+							icon:"success",
+							mask:true,
+							duration:900
+						})
+						setTimeout(() => {
+							uni.redirectTo({
+								url:"/pages/news/news"
+							})
+						},1000)
+					}else{
+						uni.showToast({
+							title:res.data.message,
+							icon:"error",
+							mask:true,
+							duration:900
+						})
+					}
+				})
+				
 			},
 			// 清除缓存
 			clearStorage() {

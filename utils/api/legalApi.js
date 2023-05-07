@@ -1,13 +1,13 @@
 import {request} from './http.js'
 /**
  * 获取法律列表
- * @param {Object} param 
+ * @param {Object} params
  */
-export function queryLawList(param){
+export function queryLawList(params){
 	return request({
 		url:'/legal/queryLawList',
 		method:'POST',
-		data:param
+		data:params
 	})
 }
 /**
@@ -31,13 +31,34 @@ export function querySecType(secType){
 }
 /**
  * 根据内容获取法律
- * @param {Object} param
+ * @param {Object} params
  */
-export function queryLawsByArticle(param){
+export function queryLawsByArticle(params){
 	return request({
 		url:'/legal/queryLawsByArticle',
 		method:'POST',
-		data:param
+		data:params
+	})
+}
+/**
+ * 获取法律正文
+ * @param {Object} param
+ */
+export function queryLegalContent(params){
+	return request({
+		url:'/legal/queryLegalContent',
+		method:'POST',
+		data:params
+	})
+}
+
+/**
+ * 获取最新法律列表
+ */
+export function queryLastLaws(){
+	return request({
+		url:'/legal/queryLastLaws',
+		method:'GET'
 	})
 }
 

@@ -1,5 +1,5 @@
 <template>
-	<!-- 新鲜事页 -->
+	<!-- 首页 -->
 	<view class="news">
 		<!-- 导航栏 -->
 		<u-navbar placeholder>
@@ -68,7 +68,7 @@
 					<!-- 最近更新 -->
 					<view class="last-update">
 						<view class="last-update-name">最新法规</view>
-						<topic-list :item="item" v-for="(item,index) in topicList.list" :key="index"></topic-list>
+						<topic-list :item="item" :index="index" v-for="(item,index) in lastLaws" :key="index"></topic-list>
 					</view>
 				</scroll-view>
 			</swiper-item>
@@ -78,7 +78,6 @@
 
 <script>
 	import {
-		chatList,
 		newsList,
 		topicList
 	} from "@/utils/data/data.js"
@@ -87,7 +86,8 @@
 	import TopicList from "@/pages/news/cpns/topic-list.vue"
 	import {
 		queryLawType,
-		querySecType
+		querySecType,
+		queryLastLaws
 	} from "@/utils/api/legalApi.js"
 	export default {
 		components: {
@@ -99,19 +99,19 @@
 			return {
 				lawTypes: ['国家法', '行政法', '刑法', '民商法', '经济法', '知识产权', '诉讼仲裁', '司法制度'],
 				model1: {},
-				checkboxValue1: [1],
+				checkboxValue1: [0],
 				checkboxList1: [{
 						name: '国家法律法规库',
 						disabled: false,
-						value: 1
+						value: 0
 					},
-					{
-						name: '地方法律法规库',
-						disabled: false,
-						value: 2
-					},
+					// {
+					// 	name: '地方法律法规库',
+					// 	disabled: false,
+					// 	value: 1
+					// },
 				],
-
+				lastLaws:[],
 				// 导航标签
 				tabIndex: 1,
 				tabList: [{
@@ -199,12 +199,23 @@
 			//获取一级分类列表
 			this.queryLawType()
 			this.selectedItemIndex = 0
+			//获取最新法律列表
+			this.getLastLawsList()
 
 		},
 		mounted() {
 			this.currCell("NF", 0)
 		},
 		methods: {
+			//获取法律最新列表
+			getLastLawsList(){
+				queryLastLaws().then(res => {
+					this.lastLaws = res.data
+					console.log(res);
+				})
+			},
+			
+			
 			//点击左侧菜单切换中间的分类
 			currCell(data, index) {
 				querySecType(data).then(res => {
@@ -214,9 +225,11 @@
 				this.selectedItemIndex = index;
 				this.selected = !this.selected;
 			},
+			//法律级别多选
 			lawLabSelect() {
 				console.log(this.checkboxValue1);
 			},
+			
 			// tabbar点击
 			changeTab(index) {
 				this.tabIndex = index
@@ -253,8 +266,9 @@
 				})
 			},
 			openSearchList(value) {
+
 				uni.navigateTo({
-					url: 'cpns/law-search-detail?lawType=' + value
+					url: 'cpns/law-search-detail?lawType=' + value + "&levels=" + this.checkboxValue1
 				})
 			},
 			//一级分类列表
@@ -376,7 +390,7 @@
 				.u-checkbox-label--left {
 					width: calc(50% - 0.5px);
 					justify-content: center;
-					border-right: 0.5px solid #d3d3d3;
+					// border-right: 0.5px solid #d3d3d3;
 				}
 
 				.u-form-item {

@@ -5,11 +5,11 @@
 		<view class="status-bar bg-white pt-30"></view>
 		<!-- 头像栏 -->
 		<view class="flex items-center wrap-card" hover-class="bg-gray-100" @click="$u.route('/pages/mine/set')">
-			<image class="header-img" src="/static/img/header/d.svg" mode=""
+			<image class="header-img" :src="mine.userImg" mode=""
 				@click.stop="$u.route('/pages/mine/user-space')"></image>
 			<view class="flex flex-col flex-1 px-20">
-				<text class="text-32 font-bold">MrThinco</text>
-				<text class="text-28 text-gray-500 mt-10">总帖子&nbsp;38&nbsp;&nbsp;今日发帖&nbsp;2</text>
+				<text class="text-32 font-bold" >{{mine.userName}}</text>
+				<u--text :lines="1" :text="mine.signature" size=13 color="#999" margin="10rpx 0"></u--text>
 			</view>
 			<text class="iconfont iconqianjin"></text>
 		</view>
@@ -43,6 +43,15 @@
 	export default {
 		data() {
 			return {
+				mine:{		
+				//我的-用户名
+				userName:"未登录",
+				userImg:"/static/img/header/noLogin.svg",
+				signature:"那些听不见音乐的人认为那些跳舞的人疯了。"
+				},
+				
+				
+				
 				// 统计列表
 				countList: [{
 						num: 12,
@@ -69,16 +78,12 @@
 						url: 'user-space'
 					},
 					{
-						icon: 'iconliulan',
-						name: '浏览历史'
-					},
-					{
-						icon: 'iconrenzheng',
-						name: '社区认证'
+						icon: 'iconshoucang',
+						name: '我的收藏'
 					},
 					{
 						icon: 'iconshenhe',
-						name: '审核帖子'
+						name: '我的学习'
 					},
 					// #ifdef MP-WEIXIN
 					{
@@ -106,6 +111,7 @@
 </script>
 
 <style lang="scss" scoped>
+
 	.my {
 
 		.header-img {

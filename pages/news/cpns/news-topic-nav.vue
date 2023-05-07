@@ -1,7 +1,7 @@
 <template>
 	<view class="hot-nav">
 		<view class="flex justify-between column-one">
-			<view class="">法律分类</view>
+			<view class="">法律书库</view>
 			<view class="flex justify-between items-center" @click="goTopicNav()">
 				更多<view class="iconfont iconqianjin"></view>
 			</view>
@@ -13,19 +13,16 @@
 </template>
 
 <script>
-	/*
-	 * newsTopicNav 新鲜事页话题导航
-	 * @description 用于首页图文列表信息
-	 * @author MrThinco
-	 * @property {Array} list 列表信息
-	 */
+/**
+ * 主页法律案件栏
+ */
 	export default {
 		props:{
 			// list:Array
 		},
 		data() {
 			return {
-				list: ["中央法规","地方法规","立法资料","立法计划","中外条约"]
+				list: ["法案要闻","以案释法","法制动态","论文资料","法律书摘"]
 			};
 		},
 		methods: {

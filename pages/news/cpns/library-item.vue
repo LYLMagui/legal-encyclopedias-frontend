@@ -4,22 +4,21 @@
 		<!-- <image :src="item.img" lazy-load mode="heightFix"></image> -->
 		<view class=" flex-1">
 			<view class="text-black text-32"><text>{{index + 1}}.</text>
-				{{item.legalName}}
-				<view class="tag">
+				{{item.title}}
+<!-- 				<view class="tag">
 					<u-tag :text="activity" size="mini" :bgColor="tagBgColor"></u-tag>
-				</view>
+				</view> -->
 			</view>
-			<view class="text-gray-400 text-30 my-10">{{item.documentNumber === null ? '' : item.documentNumber + " /"}} {{item.publishTime + " 发布 /"}} {{item.startTime + " 施行"}}</view>
+			<view class="text-gray-400 text-30 my-10">
+				<text v-if="item.origin != null">{{item.origin + "&nbsp;"}}</text>{{item.updataTime}}
+				</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	/*
-	 * newsTopicList 新鲜事页话题列表
-	 * @description 用于新鲜事页中话题栏下面的话题列表
-	 * @author MrThinco
-	 * @property {Object} item 信息
+	/**
+	 * 法律书库页面item项
 	 */
 	export default {
 		props: {
@@ -55,7 +54,7 @@
 			// 法律详情
 			goTopicDetail(item) {
 				this.$u.route({
-					url:'/pages/home/read?item=' + JSON.stringify(item)
+					url:'/pages/news/cpns/library-detail?item=' + JSON.stringify(item)
 				})
 			}
 		}
@@ -69,9 +68,10 @@
 		margin-left: 10px;
 	}
 	.topic-list {
+		
+		margin: 10rpx 0;
 		padding: 10px 20px;
 		background-color: #ffffff;
-
 		image {
 			width: 150rpx;
 			height: 150rpx;
